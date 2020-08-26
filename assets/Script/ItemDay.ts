@@ -63,7 +63,7 @@ export default class ItemDay extends cc.Component {
         let currentYear = currentDate.getFullYear()
         let currentMonth = currentDate.getMonth()
         let currentDay = currentDate.getDate()
-        let newCurrentDate = new Date(currentYear, currentMonth + 1, currentDay)
+        let newCurrentDate = new Date(currentYear, currentMonth, currentDay)
 
 
         //当前时间高亮

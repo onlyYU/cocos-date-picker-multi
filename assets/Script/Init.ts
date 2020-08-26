@@ -15,59 +15,81 @@ export default class NewClass extends cc.Component {
 
     @property({
         type:cc.Label,
-        displayName:'显示的时间'
+        displayName:'区域时间显示'
     })
-    label: cc.Label = null;
+    areaLabel: cc.Label = null;
+
+    @property({
+        type:cc.Label,
+        displayName:'单个时间显示'
+    })
+    singleLabel: cc.Label = null;
 
     @property({
         type:cc.Prefab,
-        displayName:'单选时间预设'
+        displayName:'单个时间预设'
     })
     datePicker: cc.Prefab = null;
 
-    year;
-    month;
-    day;
+    @property({
+        type:cc.Prefab,
+        displayName:'区域时间预设'
+    })
+    dateAreaPicker: cc.Prefab = null;
 
-    start () {
-
-    }
-
-    onLoad () {
-        let date = new Date();
-        this.year = date.getFullYear()
-        this.month = date.getMonth()
-        this.day = date.getDate()
-
-        this.updateDate()
-    }
+    @property({
+        type:cc.Node,
+        displayName:'展示时间对话框的区域'
+    })
+    contentNode:cc.Node = null
 
 
-    onClickDate() {
-        let node = cc.instantiate(this.datePicker)
-        node.parent = this.node
-        let datePicker = node.getComponent(DateAreaPicker)
+    /**
+     * 展示时间区域选择框
+     */
+    onDateAreaPikcerShow() {
+        let node = cc.instantiate(this.dateAreaPicker)
+        this.contentNode.removeAllChildren()
+        node.parent = this.contentNode
+        let dateAreaPicker = node.getComponent(DateAreaPicker)
 
 
         let date = new Date()
         let year = date.getFullYear()
         let month = date.getMonth()
-        let day = date.getDate()
 
         let startDate = new Date(year,month,1)
         let endDate = new Date(year,month + 1,1)
 
-        datePicker.setDate(startDate,endDate)
-        datePicker.setAreaCallback((dates:any)=>{
+        dateAreaPicker.setDate(startDate,endDate)
+        dateAreaPicker.setAreaCallback((dates:any)=>{
             let startDate:Date = dates[0]
             let endDate:Date = dates[1]
-            this.label.string = cc.js.formatStr("%s-%s-%s", startDate.getFullYear(), startDate.getMonth(), startDate.getDate()) + '至' + cc.js.formatStr("%s-%s-%s", endDate.getFullYear(), endDate.getMonth(), endDate.getDate())
+            this.areaLabel.string = cc.js.formatStr("%s-%s-%s", startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate()) + '至' + cc.js.formatStr("%s-%s-%s", endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate())
         });
     }
 
+    /**
+     * 展示单个时间选择框
+     */
+    onDatePikcerShow() {
+        let node = cc.instantiate(this.datePicker)
+        this.contentNode.removeAllChildren()
+        node.parent = this.contentNode
+        let datePicker = node.getComponent(DatePicker)
 
-    updateDate () {
-        this.label.string = cc.js.formatStr("%s-%s-%s", this.year, this.month + 1, this.day);
+
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth()
+
+        let startDate = new Date(year,month,1)
+
+        datePicker.setDate(startDate)
+        datePicker.setPickDateCallback((dates:any)=>{
+            this.singleLabel.string = cc.js.formatStr("%s-%s-%s", dates.getFullYear(), dates.getMonth() + 1, dates.getDate())
+            node.active = false
+        });
     }
 
     // update (dt) {}
