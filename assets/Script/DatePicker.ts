@@ -142,8 +142,7 @@ export default class DatePicker extends cc.Component {
         }
         this.date.setFullYear(this.year);
         this.date.setMonth(this.month);
-        // this.updateDate();
-        this.dateChange&&this.dateChange(new Date(this.year,this.month,1))
+       this.doChangeDate()
     }
 
     /**
@@ -158,8 +157,7 @@ export default class DatePicker extends cc.Component {
         }
         this.date.setFullYear(this.year);
         this.date.setMonth(this.month);
-        // this.updateDate();
-        this.dateChange&&this.dateChange(new Date(this.year,this.month,1))
+        this.doChangeDate()
     }
 
     /**
@@ -172,8 +170,7 @@ export default class DatePicker extends cc.Component {
             this.month = 0
         }
         this.date.setFullYear(this.year)
-        // this.updateDate()
-        this.dateChange&&this.dateChange(new Date(this.year,this.month,1))
+        this.doChangeDate()
     }
 
     /**
@@ -182,8 +179,15 @@ export default class DatePicker extends cc.Component {
     nextYear(){
         this.year += 1
         this.date.setFullYear(this.year)
-        // this.updateDate()
-        this.dateChange&&this.dateChange(new Date(this.year,this.month,1))
+        this.doChangeDate()
+    }
+
+    doChangeDate(){
+        if(this.dateChange){
+            this.dateChange(new Date(this.year,this.month,1))
+        }else{
+            this.updateDate()
+        }
     }
 
     // 设置选中日期之后的回调

@@ -35,7 +35,6 @@ export default class NewClass extends cc.Component {
 
         let startNode = cc.instantiate(this.time_start)
         startNode.parent = this.node
-        startNode.setPosition(-120, 0)
         let startPicker = startNode.getComponent(DatePicker)
         startPicker.setDate(startDate)
         startPicker.setAreaDate(this.areaDate)
@@ -68,7 +67,6 @@ export default class NewClass extends cc.Component {
 
         let endNode = cc.instantiate(this.time_end)
         endNode.parent = this.node
-        endNode.setPosition(120, 0)
         let endPicker = endNode.getComponent(DatePicker)
         endPicker.setDate(endDate)
         endPicker.setAreaDate(this.areaDate)
